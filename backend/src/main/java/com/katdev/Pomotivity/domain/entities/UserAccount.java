@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -15,7 +17,7 @@ import java.util.UUID;
 @Builder
 @Data
 @Table(name = "user_accounts")
-public class User {
+public class UserAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -31,16 +33,24 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private LocalDateTime created_date;
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TaskList> taskLists = new ArrayList<>();
 
-    @Column(nullable = false)
-    private LocalDateTime updated_date;
+    @Column(name = "created_date", nullable = false)
+    private LocalDateTime createdDate;
+
+    @Column(name = "updated_date", nullable = false)
+    private LocalDateTime updatedDate;
 
     @PrePersist
     protected void onCreate() {
-        this.created_date = LocalDateTime.now();
-        this.updated_date = LocalDateTime.now();
+        this.createdDate = LocalDateTime.now();
+        this.updatedDate = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedDate = LocalDateTime.now();
     }
 
 }

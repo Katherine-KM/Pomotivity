@@ -36,6 +36,9 @@ public class UserAccount {
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TaskList> taskLists = new ArrayList<>();
 
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PomodoroSetting> pomodoroSettings = new ArrayList<>();
+
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
 

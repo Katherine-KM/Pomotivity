@@ -19,7 +19,7 @@ public class PriorityLevel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false, unique = true)
-    private int id;
+    private Integer id;
 
     @OneToMany(mappedBy = "priorityLevelId")
     private List<Task> tasks = new ArrayList<>();

@@ -24,6 +24,15 @@ public class UserAccount {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TaskList> taskLists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PomodoroSetting> pomodoroSettings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks = new ArrayList<>();
+
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -32,12 +41,6 @@ public class UserAccount {
 
     @Column(nullable = false)
     private String name;
-
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TaskList> taskLists = new ArrayList<>();
-
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PomodoroSetting> pomodoroSettings = new ArrayList<>();
 
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;

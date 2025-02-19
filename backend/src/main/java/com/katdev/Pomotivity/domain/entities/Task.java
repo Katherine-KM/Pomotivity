@@ -7,39 +7,51 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "task_lists")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "task_list_type", discriminatorType = DiscriminatorType.STRING)
-public class TaskList {
+@Table(name = "tasks")
+public class Task {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false, updatable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, updatable = false, unique = true)
+    private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserAccount userId;
 
-    @OneToMany(mappedBy = "taskListId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Task> tasks;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_list_id")
+    private TaskList taskListId;
 
-    @Column(name = "title", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "priority_level_id")
+    private PriorityLevel priorityLevelId;
+
+    @Column(nullable = false)
     private String title;
 
-    @Column(name = "description")
     private String description;
 
-    @Column(name = "completed", nullable = false)
-    private Boolean completed;
+    @Column(name = "estimated_pomodoros", nullable = false)
+    private int estimatedPomodoros = 0;
+
+    @Column(name = "total_pomodoros")
+    private int totalPomodoros = 0;
+
+    @Column(name = "position")
+    private int position = 0;
+
+    @Column(name = "completed")
+    private boolean completed = false;
+
+    @Column(name = "completed_date")
+    private LocalDateTime completedDate = null;
 
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
@@ -51,7 +63,6 @@ public class TaskList {
     protected void onCreate() {
         this.createdDate = LocalDateTime.now();
         this.updatedDate = LocalDateTime.now();
-        this.completed = false;
     }
 
     @PreUpdate

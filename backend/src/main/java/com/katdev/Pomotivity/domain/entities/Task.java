@@ -17,7 +17,6 @@ public class Task {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-
     public long getId() {
         return id;
     }
@@ -34,11 +33,20 @@ public class Task {
         this.title = title;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Task() {
     }
 
-    public Task(long id, String title) {
+    public Task(long id, String title, User user) {
         this.id = id;
         this.title = title;
+        this.user = user;
     }
 }

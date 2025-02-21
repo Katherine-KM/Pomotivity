@@ -1,7 +1,8 @@
 package com.katdev.Pomotivity.controllers;
 
 import com.katdev.Pomotivity.domain.entities.Task;
-import com.katdev.Pomotivity.domain.entities.User;
+import com.katdev.Pomotivity.dtos.TaskDto;
+import com.katdev.Pomotivity.repositories.UserRepository;
 import com.katdev.Pomotivity.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,14 +22,14 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<Task> getAllTasksByUser(@RequestBody User user) {
-        return taskService.getAllTasksByUserId(user.getId());
+    public List<TaskDto> getAllTasks() {
+        return taskService.getAllTasks();
     }
 
     @PostMapping
-    public ResponseEntity<Task> addTask(@RequestBody Task task) {
-        Task newTask = taskService.addTask(task);
-        return new ResponseEntity<>(newTask, HttpStatus.CREATED);
+    public ResponseEntity<TaskDto> addTask(@RequestBody TaskDto taskDto) {
+        TaskDto savedTaskDto = taskService.addTask(taskDto);
+        return new ResponseEntity<>(savedTaskDto, HttpStatus.CREATED);
     }
 
     @PutMapping

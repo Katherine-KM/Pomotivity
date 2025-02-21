@@ -66,14 +66,21 @@ public class TaskService {
         return savedTaskDto;
     }
 
-    public Task updateTask(Task task) {
-        Optional<Task> taskOptional = taskRepository.findById(task.getId());
+    public TaskDto updateTask(TaskDto taskDto) {
+        Optional<Task> taskOptional = taskRepository.findById(taskDto.getId());
         if (taskOptional.isPresent()) {
             Task updatedTask = taskOptional.get();
-            updatedTask.setTitle(task.getTitle());
-
+            User user = userRepository.findById(taskDto.getUserId()).orElse(null);
+            updatedTask.setTitle(taskDto.getTitle());
+            updatedTask.setUser(user);
             taskRepository.save(updatedTask);
-            return updatedTask;
+
+            TaskDto savedTaskDto = new TaskDto();
+            savedTaskDto.setId(updatedTask.getId());
+            savedTaskDto.setTitle(updatedTask.getTitle());
+            savedTaskDto.setUserId(updatedTask.getUser().getId());
+
+            return savedTaskDto;
         }
         return null;
     }

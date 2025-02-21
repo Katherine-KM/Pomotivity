@@ -33,8 +33,8 @@ public class TaskController {
     }
 
     @PutMapping
-    public ResponseEntity<Task> updateTask(@RequestBody Task task) {
-        Task updatedTask = taskService.updateTask(task);
+    public ResponseEntity<TaskDto> updateTask(@RequestBody TaskDto taskDto) {
+        TaskDto updatedTask = taskService.updateTask(taskDto);
 
         if(updatedTask != null) {
             return new ResponseEntity<>(updatedTask, HttpStatus.OK);

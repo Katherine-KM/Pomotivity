@@ -1,6 +1,7 @@
 package com.katdev.Pomotivity.domain.entities;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +17,22 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<>();
 
-    public List<Task> getTasks() {
-        return tasks;
+    private String username;
+
+    private String password;
+
+    @Column(unique = true)
+    private String email;
+
+    public User() {
     }
 
-    public void setTasks(List<Task> tasks) {
+    public User(Integer id, List<Task> tasks, String username, String password, String email) {
+        this.id = id;
         this.tasks = tasks;
+        this.username = username;
+        this.password = password;
+        this.email = email;
     }
 
     public Integer getId() {
@@ -32,11 +43,35 @@ public class User {
         this.id = id;
     }
 
-    public User() {
+    public List<Task> getTasks() {
+        return tasks;
     }
 
-    public User(Integer id, List<Task> tasks) {
-        this.id = id;
+    public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

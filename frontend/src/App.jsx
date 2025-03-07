@@ -1,14 +1,12 @@
 import { useState } from 'react'
 import './App.css'
-import { Container } from '@mui/material'
+import { Container, Typography } from '@mui/material'
+import axios from 'axios'
 
 function App() {
   return (
     <>
-    <Container>
-    <div>Hello World!</div>
-    </Container>
-    <div>Hello World!</div>
+      <span>Hello World</span>
     </>
   )
 }

@@ -6,6 +6,7 @@ import {Routes, Route} from "react-router-dom"
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import RequireAuth from './utils/RequireAuth';
 import Reports from './pages/Reports';
 
 function App() {
@@ -16,8 +17,10 @@ function App() {
           <Routes>
             <Route path="/signup" element={<Signup />}/>
             <Route path="/login" element={<Login />}/>
-            <Route path="/" element={<Home />}/>
-            <Route path="/reports" element={<Reports/>}/>
+            <Route element={<RequireAuth/>}>
+              <Route path="/" element={<Home />}/>
+              <Route path="/reports" element={<Reports/>}/>
+            </Route>
           </Routes>
         </main>
     </ThemeProvider>

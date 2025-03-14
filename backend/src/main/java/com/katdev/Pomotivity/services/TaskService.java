@@ -26,28 +26,69 @@ public class TaskService {
         this.userRepository = userRepository;
     }
 
-    public List<TaskDto> getAllTasks() {
-        List<Task> listOfTasks = taskRepository.findAll();
+//    public List<TaskDto> getAllTasks() {
+//        List<Task> listOfTasks = taskRepository.findAll();
+//
+//        List<TaskDto> taskDtos = listOfTasks.stream()
+//                .map(task -> {
+//                    TaskDto taskDto = new TaskDto();
+//                    taskDto.setId(task.getId());
+//                    taskDto.setTitle(task.getTitle());
+//                    taskDto.setUserId(task.getUser().getId());
+//                    return taskDto;
+//                })
+//                .toList();
+//
+//        return taskDtos;
+//    }
 
-        List<TaskDto> taskDtos = listOfTasks.stream()
-                .map(task -> {
-                    TaskDto taskDto = new TaskDto();
-                    taskDto.setId(task.getId());
-                    taskDto.setTitle(task.getTitle());
-                    taskDto.setUserId(task.getUser().getId());
-                    return taskDto;
-                })
-                .collect(Collectors.toList());
+//    public TaskDto getTaskById(long id) {
+//        Task task = taskRepository.findById(id).orElse(null);
+//        TaskDto taskDto = new TaskDto();
+//        taskDto.setId(task.getId());
+//        taskDto.setTitle(task.getTitle());
+//        taskDto.setUserId(task.getUser().getId());
+//        return taskDto;
+//    }
 
-        return taskDtos;
-    }
 
-    public Task getTaskById(long id) {
-        return taskRepository.findById(id).orElse(null);
-    }
+    public List<TaskDto> filterTasks(Integer userId, Integer taskId, String title) {
+        List <Task> filteredTasks = taskRepository.findAll();
 
-    public List<Task> getAllTasksByUserId(long userId) {
-        return taskRepository.findByUserId(userId);
+        if(taskId != null) {
+            Task task = taskRepository.findById(taskId.longValue()).orElse(null);
+            if(task != null) {
+                filteredTasks = List.of(task);
+                return filteredTasks.stream()
+                        .map(this::convertTaskToDto)
+                        .toList();
+            } else {
+                return List.of();
+            }
+        }
+
+        if(userId != null) {
+            List <Task> task = taskRepository.findByUserId(userId);
+            if(task != null) {
+                filteredTasks = task;
+            } else {
+                return List.of();
+            }
+        }
+
+        if(title != null) {
+            List <Task> task = taskRepository.findByTitleContaining(title);
+            if(task != null) {
+                filteredTasks =
+                        filteredTasks.stream().filter(tasks -> tasks.getTitle().contains(title)).collect(Collectors.toList());
+            } else {
+                return List.of();
+            }
+        }
+
+        return filteredTasks.stream()
+                .map(this::convertTaskToDto)
+                .toList();
     }
 
     public TaskDto addTask(TaskDto taskDto) {
@@ -55,15 +96,9 @@ public class TaskService {
         User user = userRepository.findById(taskDto.getUserId()).orElse(null);
         createdTask.setTitle(taskDto.getTitle());
         createdTask.setUser(user);
+        taskRepository.save(createdTask);
 
-        Task savedTask = taskRepository.save(createdTask);
-
-        TaskDto savedTaskDto = new TaskDto();
-        savedTaskDto.setId(savedTask.getId());
-        savedTaskDto.setTitle(savedTask.getTitle());
-        savedTaskDto.setUserId(savedTask.getUser().getId());
-
-        return savedTaskDto;
+        return convertTaskToDto(createdTask);
     }
 
     public TaskDto updateTask(TaskDto taskDto) {
@@ -75,12 +110,7 @@ public class TaskService {
             updatedTask.setUser(user);
             taskRepository.save(updatedTask);
 
-            TaskDto savedTaskDto = new TaskDto();
-            savedTaskDto.setId(updatedTask.getId());
-            savedTaskDto.setTitle(updatedTask.getTitle());
-            savedTaskDto.setUserId(updatedTask.getUser().getId());
-
-            return savedTaskDto;
+            return convertTaskToDto(updatedTask);
         }
         return null;
     }
@@ -88,5 +118,13 @@ public class TaskService {
     @Transactional
     public void deleteTask(long id) {
         taskRepository.deleteById(id);
+    }
+
+    private TaskDto convertTaskToDto(Task task) {
+        TaskDto taskDto = new TaskDto();
+        taskDto.setId(task.getId());
+        taskDto.setTitle(task.getTitle());
+        taskDto.setUserId(task.getUser().getId());
+        return taskDto;
     }
 }

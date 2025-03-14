@@ -22,8 +22,12 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<TaskDto> getAllTasks() {
-        return taskService.getAllTasks();
+    public List<TaskDto> getTasks(
+            @RequestParam(required = false) Integer userId,
+            @RequestParam(required = false) Integer taskId,
+            @RequestParam(required = false) String taskTitle
+    ) {
+        return taskService.filterTasks(userId, taskId, taskTitle);
     }
 
     @PostMapping

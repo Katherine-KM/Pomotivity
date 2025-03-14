@@ -1,9 +1,11 @@
 package com.katdev.Pomotivity.services;
 
+import com.katdev.Pomotivity.Security.CustomUserDetails;
 import com.katdev.Pomotivity.domain.entities.User;
 import com.katdev.Pomotivity.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,10 +29,7 @@ public class UserService implements UserDetailsService {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
 
-            return org.springframework.security.core.userdetails.User.builder()
-                    .username(user.getUsername())
-                    .password(user.getPassword())
-                    .build();
+            return new CustomUserDetails(user);
         }else{
             throw new UsernameNotFoundException("User not found");
         }

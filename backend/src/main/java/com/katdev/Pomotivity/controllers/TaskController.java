@@ -43,15 +43,19 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<TaskDto> addTask(
             @RequestBody TaskDto taskDto,
-            @LoggedInUser CustomUserDetails loggedinUser
+            @LoggedInUser CustomUserDetails loggedInUser
     ) {
-        taskDto.setUserId(loggedinUser.getUser().getId());
+        taskDto.setUserId(loggedInUser.getUser().getId());
         TaskDto savedTaskDto = taskService.addTask(taskDto);
         return new ResponseEntity<>(savedTaskDto, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<TaskDto> updateTask(@RequestBody TaskDto taskDto) {
+    public ResponseEntity<TaskDto> updateTask(
+            @RequestBody TaskDto taskDto,
+            @LoggedInUser CustomUserDetails loggedInUser
+    ) {
+        taskDto.setUserId(loggedInUser.getUser().getId());
         TaskDto updatedTask = taskService.updateTask(taskDto);
 
         if(updatedTask != null) {

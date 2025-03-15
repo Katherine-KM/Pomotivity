@@ -58,6 +58,10 @@ public class SecurityConfig {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                         })
                 )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+                        }))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/signup").permitAll()
                         .anyRequest().authenticated()

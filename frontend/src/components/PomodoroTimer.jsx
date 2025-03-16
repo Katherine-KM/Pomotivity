@@ -2,7 +2,7 @@ import { Box, Typography, Button} from "@mui/material"
 import { useEffect, useState } from "react";
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 
-export const PomodoroTimer = ({timeRemaining, setTimeRemaining, paused}) => {
+export const PomodoroTimer = ({timeRemaining, setTimeRemaining, paused, handleOpenSettings}) => {
     const [minutes, setMinutes] = useState(Math.floor(timeRemaining / 60));
     const [seconds, setSeconds] = useState(Math.floor(timeRemaining % 60));
 
@@ -25,7 +25,9 @@ export const PomodoroTimer = ({timeRemaining, setTimeRemaining, paused}) => {
     return ( 
         <>
             <Box textAlign={"right"}>
-                <Button>
+                <Button
+                    onClick={handleOpenSettings}
+                >
                     <SettingsSuggestIcon fontSize="large"/>
                 </Button>
             </Box>

@@ -5,7 +5,6 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 export const TaskListItem = ({task, checked}) => {
-
     return (
         <>
             <ListItem>

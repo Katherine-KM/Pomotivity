@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -52,38 +53,20 @@ public class TaskService {
 //    }
 
 
-    public List<TaskDto> filterTasks(Integer userId, Integer taskId, String title) {
-        List <Task> filteredTasks = taskRepository.findAll();
-
-        if(taskId != null) {
-            Task task = taskRepository.findById(taskId.longValue()).orElse(null);
-            if(task != null) {
-                filteredTasks = List.of(task);
-                return filteredTasks.stream()
-                        .map(this::convertTaskToDto)
-                        .toList();
-            } else {
-                return List.of();
-            }
-        }
-
-        if(userId != null) {
-            List <Task> task = taskRepository.findByUserId(userId);
-            if(task != null) {
-                filteredTasks = task;
-            } else {
-                return List.of();
-            }
-        }
+    public List<TaskDto> filterTasks(Integer userId, Integer taskId, String title, Boolean completed, LocalDate dueDate) {
+        List <Task> filteredTasks = taskRepository.findByUserId(userId);
 
         if(title != null) {
-            List <Task> task = taskRepository.findByTitleContaining(title);
-            if(task != null) {
+                filteredTasks = taskRepository.findByUserIdAndTitleIgnoreCaseContaining(userId, title);
+        }
+
+        if(completed != null) {
                 filteredTasks =
-                        filteredTasks.stream().filter(tasks -> tasks.getTitle().contains(title)).collect(Collectors.toList());
-            } else {
-                return List.of();
-            }
+                        filteredTasks.stream().filter(tasks -> tasks.getCompleted().equals(completed)).collect(Collectors.toList());
+        }
+
+        if(dueDate != null) {
+            filteredTasks = filteredTasks.stream().filter(tasks -> tasks.getDueDate().equals(dueDate)).collect(Collectors.toList());
         }
 
         return filteredTasks.stream()
@@ -96,6 +79,8 @@ public class TaskService {
         User user = userRepository.findById(taskDto.getUserId()).orElse(null);
         createdTask.setTitle(taskDto.getTitle());
         createdTask.setUser(user);
+        createdTask.setDueDate(taskDto.getDueDate());
+        createdTask.setEstimatedPomodoros(taskDto.getEstimatedPomodoros());
         taskRepository.save(createdTask);
 
         return convertTaskToDto(createdTask);
@@ -108,6 +93,10 @@ public class TaskService {
             User user = userRepository.findById(taskDto.getUserId()).orElse(null);
             updatedTask.setTitle(taskDto.getTitle());
             updatedTask.setUser(user);
+            updatedTask.setDueDate(taskDto.getDueDate());
+            updatedTask.setCompleted(taskDto.getCompleted());
+            updatedTask.setEstimatedPomodoros(taskDto.getEstimatedPomodoros());
+            updatedTask.setActualPomodoros(taskDto.getActualPomodoros());
             taskRepository.save(updatedTask);
 
             return convertTaskToDto(updatedTask);
@@ -125,6 +114,10 @@ public class TaskService {
         taskDto.setId(task.getId());
         taskDto.setTitle(task.getTitle());
         taskDto.setUserId(task.getUser().getId());
+        taskDto.setDueDate(task.getDueDate());
+        taskDto.setEstimatedPomodoros(task.getEstimatedPomodoros());
+        taskDto.setActualPomodoros(task.getActualPomodoros());
+        taskDto.setCompleted(task.getCompleted());
         return taskDto;
     }
 }

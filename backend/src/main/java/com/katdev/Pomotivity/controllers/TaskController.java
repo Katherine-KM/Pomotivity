@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -34,10 +35,12 @@ public class TaskController {
     public List <TaskDto> getTasks(
             @RequestParam(required = false) Integer taskId,
             @RequestParam(required = false) String taskTitle,
+            @RequestParam(required = false) Boolean completed,
+            @RequestParam(required = false) LocalDate dueDate,
             @LoggedInUser CustomUserDetails loggedInUser
     ) {
         Integer userId = loggedInUser.getUser().getId();
-        return taskService.filterTasks(userId, taskId, taskTitle);
+        return taskService.filterTasks(userId, taskId, taskTitle, completed, dueDate);
     }
 
     @PostMapping

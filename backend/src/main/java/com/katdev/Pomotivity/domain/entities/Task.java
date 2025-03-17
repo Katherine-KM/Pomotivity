@@ -2,6 +2,9 @@ package com.katdev.Pomotivity.domain.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "tasks")
 public class Task {
@@ -17,6 +20,50 @@ public class Task {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    private Boolean completed;
+
+    @Column(name = "estimated_pomodoros", nullable = false)
+    private Integer estimatedPomodoros;
+
+    @Column(name = "actual_pomodoros", nullable = false)
+    private Integer actualPomodoros;
+
+    @Column(name = "due_date", nullable = false)
+    private LocalDate dueDate;
+
+    @Column(name = "created_date", nullable = false)
+    private LocalDateTime createdDate;
+
+    @Column(name = "updated_date", nullable = false)
+    private LocalDateTime updatedDate;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdDate = LocalDateTime.now();
+        this.updatedDate = LocalDateTime.now();
+        this.completed = false;
+        this.actualPomodoros = 0;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedDate = LocalDateTime.now();
+    }
+
+    public Task() {
+    }
+
+    public Task(long id, String title, User user, Boolean completed, Integer estimatedPomodoros, Integer actualPomodoros, LocalDate dueDate, LocalDateTime createdDate, LocalDateTime updatedDate) {
+        this.id = id;
+        this.title = title;
+        this.user = user;
+        this.completed = completed;
+        this.estimatedPomodoros = estimatedPomodoros;
+        this.actualPomodoros = actualPomodoros;
+        this.dueDate = dueDate;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
+    }
 
     public long getId() {
         return id;
@@ -42,12 +89,51 @@ public class Task {
         this.user = user;
     }
 
-    public Task() {
+    public Boolean getCompleted() {
+        return completed;
     }
 
-    public Task(long id, String title, User user) {
-        this.id = id;
-        this.title = title;
-        this.user = user;
+    public void setCompleted(Boolean completed) {
+        this.completed = completed;
+    }
+
+    public Integer getEstimatedPomodoros() {
+        return estimatedPomodoros;
+    }
+
+    public void setEstimatedPomodoros(Integer estimatedPomodoros) {
+        this.estimatedPomodoros = estimatedPomodoros;
+    }
+
+    public Integer getActualPomodoros() {
+        return actualPomodoros;
+    }
+
+    public void setActualPomodoros(Integer actualPomodoros) {
+        this.actualPomodoros = actualPomodoros;
+    }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }

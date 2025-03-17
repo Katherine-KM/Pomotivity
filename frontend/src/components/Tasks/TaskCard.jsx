@@ -2,8 +2,9 @@ import { Card } from "@mui/material"
 import { TaskLists } from "./TaskLists"
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { AddTask } from "./AddTask";
 
-export const TaskCard = () => {
+export const TaskCard = ({today}) => {
     const [tasks, setTasks] = useState([]);
 
     const fetchTasks = () => {
@@ -26,7 +27,8 @@ export const TaskCard = () => {
 
     return (
         <Card sx={{ padding: 2 }}>
-            <TaskLists tasks={tasks} checked={false} />
+            <AddTask today = {today} fetchTasks = {fetchTasks} setTasks = {setTasks} tasks = {tasks} /> 
+            <TaskLists tasks={tasks} checked={false}  fetchTasks = {fetchTasks}  />
         </Card>
     )
 }

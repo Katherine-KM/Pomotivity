@@ -3,7 +3,7 @@ import { PomodoroCard } from "../components/PomodoroTimer/PomodoroCard";
 import { TaskCard } from "../components/Tasks/TaskCard";
 import { Box } from "@mui/material";
 
-function Home() {
+function Home({today}) {
     return (
         <>
             <Header />
@@ -14,7 +14,7 @@ function Home() {
                 sx={{ padding: 5 }}
             >
                 <PomodoroCard />
-                <TaskCard />
+                <TaskCard today = {today} />
             </Box>
         </>
     )

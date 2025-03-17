@@ -38,11 +38,6 @@ export const SmallScreenHeader = () => {
                             Reports
                         </ListItemText>
                     </ListItemButton>
-                    <ListItemButton href="/tutorial">
-                        <ListItemText>
-                            Tutorial
-                        </ListItemText>
-                    </ListItemButton>
                     <Button variant="outlined" href="/login" sx={{marginLeft: 1, mt: 0.5}}>Sign Out</Button>
                 </List>
             </Drawer>

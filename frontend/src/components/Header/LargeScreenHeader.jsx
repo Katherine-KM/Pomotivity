@@ -22,7 +22,6 @@ export const LargeScreenHeader = ({page}) => {
         >
             <Tab label="Dashboard" href="/" />
             <Tab label="Reports" href="/reports" />
-            <Tab label="Tutorial" href="/tutorial" />
         </Tabs>
         <Button variant="outlined" href="/login">Sign Out</Button></>)
 }

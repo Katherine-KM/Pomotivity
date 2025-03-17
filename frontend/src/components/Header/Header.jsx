@@ -14,7 +14,6 @@ function Header() {
     useEffect(() => {
         if (location.pathname === "/") setPage(0);
         else if (location.pathname === "/reports") setPage(1);
-        else if (location.pathname === "/tutorial") setPage(2);
     }, [location.pathname]);
 
     return (

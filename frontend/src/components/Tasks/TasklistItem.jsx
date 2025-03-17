@@ -38,7 +38,7 @@ export const TaskListItem = ({task, fetchTasks}) => {
                     <IconButton onClick={() => handleUpdate()}> {task.completed ? <CheckBoxIcon />  : <CheckBoxOutlineBlankIcon/>} </IconButton>
                 </ListItemIcon>
                 <ListItemText>{task.title}</ListItemText>
-                <ListItemText sx={{maxWidth: 70, borderColor:"pink"}}> 0 / 0</ListItemText>
+                <ListItemText sx={{maxWidth: 70, borderColor:"pink"}}> {`${task.actualPomodoros}/${task.estimatedPomodoros}`}</ListItemText>
                 <ListItemIcon>
                     <IconButton onClick={() => setIsUpdatingTask(true)}>
                         <SettingsIcon/>

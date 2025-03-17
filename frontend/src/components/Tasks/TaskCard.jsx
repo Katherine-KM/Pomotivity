@@ -28,7 +28,7 @@ export const TaskCard = ({today}) => {
     return (
         <Card sx={{ padding: 2 }}>
             <AddTask today = {today} fetchTasks = {fetchTasks} setTasks = {setTasks} tasks = {tasks} /> 
-            <TaskLists tasks={tasks} checked={false}  fetchTasks = {fetchTasks}  />
+            <TaskLists tasks={tasks} fetchTasks = {fetchTasks}  />
         </Card>
     )
 }

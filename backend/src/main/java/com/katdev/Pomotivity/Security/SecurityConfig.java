@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -64,8 +65,16 @@ public class SecurityConfig {
                         }))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/signup").permitAll()
-                        .anyRequest().authenticated()
-                )
+                        .requestMatchers("/logout").permitAll()
+                        .anyRequest().authenticated())
+                .logout(logout -> logout
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true)
+                        .logoutSuccessHandler(((request, response, authentication) -> {
+                            System.out.println("Logout Success");
+                            response.setStatus(HttpServletResponse.SC_OK);
+                        })))
                 .build();
     }
 

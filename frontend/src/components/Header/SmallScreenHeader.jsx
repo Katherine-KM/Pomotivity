@@ -5,7 +5,7 @@ import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined"
 import MenuIcon from "@mui/icons-material/Menu"
 
 
-export const SmallScreenHeader = () => {
+export const SmallScreenHeader = ({handleSignOut}) => {
     const [openDrawer, setOpenDrawer] = useState(false);
     return (
         <>
@@ -38,7 +38,7 @@ export const SmallScreenHeader = () => {
                             Reports
                         </ListItemText>
                     </ListItemButton>
-                    <Button variant="outlined" href="/login" sx={{marginLeft: 1, mt: 0.5}}>Sign Out</Button>
+                    <Button onClick={() => {handleSignOut()}} variant="outlined" href="/login" sx={{marginLeft: 1, mt: 0.5}}>Sign Out</Button>
                 </List>
             </Drawer>
         </>

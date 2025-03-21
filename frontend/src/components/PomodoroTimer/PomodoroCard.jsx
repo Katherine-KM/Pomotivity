@@ -5,11 +5,12 @@ import { PomodoroTimer } from "./PomodoroTimer";
 import { PomodoroHeader } from "./PomodoroHeader";
 import { Settings } from "./PomodoroTimerSettings";
 
-export const PomodoroCard = () => {
+export const PomodoroCard = ({setPomoCompleted}) => {
     const [pomoSessionType, setPomoSessionType] = useState("Focus Time");
     const [focusTime, setFocusTime] = useState(() => Number(localStorage.getItem("focusTime")) || 1500);
     const [shortBreakTime, setShortBreakTime] = useState(() => Number(localStorage.getItem("shortBreakTime")) || 300);
     const [longBreakTime, setLongBreakTime] = useState(() => Number(localStorage.getItem("longBreakTime")) || 900);
+    const [breakCounter, setBreakCounter] = useState(1);
     const [paused, setPaused] = useState(true);
     const [timeRemaining, setTimeRemaining] = useState(
         pomoSessionType == "Focus Time" ? focusTime :
@@ -41,7 +42,16 @@ export const PomodoroCard = () => {
                     timeRemaining={timeRemaining}
                     setTimeRemaining={setTimeRemaining}
                     paused={paused}
+                    setPaused = {setPaused}
                     handleOpenSettings={handleOpenSettings}
+                    pomoSessionType={pomoSessionType}
+                    setPomoSessionType={setPomoSessionType}
+                    breakCounter = {breakCounter}
+                    setBreakCounter = {setBreakCounter}
+                    focusTime={focusTime}
+                    shortBreakTime={shortBreakTime}
+                    longBreakTime={longBreakTime}
+                    setPomoCompleted={setPomoCompleted}
                 />
                 <PomodoroFooter
                     paused={paused}

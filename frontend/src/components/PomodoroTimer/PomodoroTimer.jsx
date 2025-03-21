@@ -2,7 +2,21 @@ import { Box, Typography, Button} from "@mui/material"
 import { useEffect, useState } from "react";
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 
-export const PomodoroTimer = ({timeRemaining, setTimeRemaining, paused, handleOpenSettings}) => {
+export const PomodoroTimer = ({
+    timeRemaining, 
+    setTimeRemaining, 
+    paused, 
+    setPaused, 
+    handleOpenSettings, 
+    pomoSessionType, 
+    setPomoSessionType, 
+    breakCounter, 
+    setBreakCounter,
+    focusTime,
+    shortBreakTime,
+    longBreakTime,
+    setPomoCompleted
+}) => {
     const [minutes, setMinutes] = useState(Math.floor(timeRemaining / 60));
     const [seconds, setSeconds] = useState(Math.floor(timeRemaining % 60));
 
@@ -12,6 +26,25 @@ export const PomodoroTimer = ({timeRemaining, setTimeRemaining, paused, handleOp
                 setTimeRemaining (prevTimeRemaining => prevTimeRemaining - 1); 
             }, 1000)
             return () => clearInterval(interval);
+        } else if (!paused && timeRemaining == 0){
+            setPaused(true)
+            console.log(breakCounter)
+            if(pomoSessionType == "Focus Time" && ((breakCounter / 4) != 1) ){
+                setPomoSessionType("Short Break")
+                setBreakCounter(breakCounter + 1)
+                setPomoCompleted(true)
+            } else if (pomoSessionType == "Short Break" || pomoSessionType == "Long Break") {
+                setPomoSessionType("Focus Time")
+            } else {
+                setPomoSessionType("Long Break")
+                setBreakCounter(1)
+                setPomoCompleted(true)
+            }
+            setTimeRemaining(
+                pomoSessionType == "Focus Time" ? focusTime :
+                pomoSessionType == "Short Break" ? shortBreakTime :
+                longBreakTime
+            )
         } else {
             console.log("It is paused")
         }

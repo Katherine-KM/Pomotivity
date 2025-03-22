@@ -46,13 +46,20 @@ export const TaskListItem = ({task, fetchTasks, setSelectedTaskId, selectedTaskI
     }, [pomoCompleted, selectedTaskId])
 
     return (
-        <Box sx={{borderColor: task.id === selectedTaskId ? "secondary.main" : "transparent", borderStyle: "solid", borderWidth: 2, borderRadius:2, "&:hover": {backgroundColor: "#212529", cursor: "pointer"}}}>
+        <Box sx={{
+            borderColor: task.id === selectedTaskId ? "secondary.main" : "transparent",
+            backgroundColor: task.id === selectedTaskId ? "#2d2d2d" : "transparent",
+            borderStyle: "solid",
+            borderWidth: 2,
+            borderRadius:2, 
+            "&:hover": {backgroundColor: "#2D2D2D", cursor: "pointer"}
+            }}>
             <ListItem onClick={() => handleSelection(task.id)}>
                 <ListItemIcon>
                     <IconButton onClick={() => handleUpdate()}> {task.completed ? <CheckBoxIcon />  : <CheckBoxOutlineBlankIcon/>} </IconButton>
                 </ListItemIcon>
                 <ListItemText>{task.title}</ListItemText>
-                <ListItemText sx={{maxWidth: 70, borderColor:"pink"}}> {`${task.actualPomodoros}/${task.estimatedPomodoros}`}</ListItemText>
+                <ListItemText sx={{maxWidth: 70}}> {`${task.actualPomodoros}/${task.estimatedPomodoros}`}</ListItemText>
                 <ListItemIcon>
                     <IconButton onClick={() => setIsUpdatingTask(true)}>
                         <SettingsIcon/>
@@ -70,7 +77,6 @@ export const TaskListItem = ({task, fetchTasks, setSelectedTaskId, selectedTaskI
                 setIsUpdatingTask = {setIsUpdatingTask}
                 fetchTasks = {fetchTasks} 
             />
-            <Button onClick={() => setPomoCompleted(true)}>Meow</Button>
             <Divider sx={{backgroundColor: "grey"}}/>
         </Box>
     )

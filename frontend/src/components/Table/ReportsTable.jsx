@@ -31,11 +31,11 @@ const ReportsTable = () => {
   }, [tasks]);
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 90, type: 'number',},
+    { field: 'id', headerName: 'ID', width: 50, type: 'number', },
     {
       field: 'title',
       headerName: 'Task Title',
-      width: 150,
+      width: 140,
     },
     {
       field: 'actualPomodoros',
@@ -58,16 +58,16 @@ const ReportsTable = () => {
     {
       field: 'dueDate',
       headerName: 'Due Date',
-      width: 140,
-      type: "date",
+      width: 180,
+      type: "dateTime",
     },
   ];
 
   return (
     <Box sx={{ height: 400, width: '100%', marginTop: 6 }}>
       <DataGrid
-        slots={{ toolbar: GridToolbar}}
-        slotProps={{ toolbar: {showQuickFilter: true,}}}
+        slots={{ toolbar: GridToolbar }}
+        slotProps={{ toolbar: { showQuickFilter: true, } }}
         density='comfortable'
         rows={tasks.map(task => ({ ...task, id: String(task.id) }))}
         columns={columns}

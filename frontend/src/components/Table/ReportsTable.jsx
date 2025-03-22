@@ -13,7 +13,7 @@ const ReportsTable = () => {
       .then((res) => {
         const sortedTasks = [...res.data].sort((a, b) => a.id - b.id);
         const formattedTasks = sortedTasks.map((task) => ({
-          ...task, dueDate: new Date(task.dueDate)
+          ...task, dueDate: new Date(task.dueDate), generatedDate: new Date()
         }))
         setTasks(formattedTasks);
       })
@@ -58,9 +58,16 @@ const ReportsTable = () => {
     {
       field: 'dueDate',
       headerName: 'Due Date',
+      width: 120,
+      type: "date",
+    },
+    {
+      field: 'generatedDate',
+      headerName: 'Report Generated Date',
       width: 180,
       type: "dateTime",
     },
+    
   ];
 
   return (

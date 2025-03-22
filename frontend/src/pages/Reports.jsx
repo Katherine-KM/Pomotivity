@@ -5,7 +5,7 @@ import ReportsTable from "../components/Table/ReportsTable"
 function Reports() {
     return (<>
         <Header/>
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
             <ReportsTable />
         </Container>
     </>)

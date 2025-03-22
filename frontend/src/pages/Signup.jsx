@@ -7,6 +7,7 @@ import { useState } from "react";
 
 function Signup() {
     const navigate = useNavigate();
+    const [error, setError] = useState("")
 
     const [user, setUser] = useState({
         username: "",
@@ -23,7 +24,11 @@ function Signup() {
         e.preventDefault()
         axios.post("http://localhost:8080/signup", user)
         .then(res => navigate("/login"))
-        .catch()
+        .catch(e => {
+            if (e.response) {
+                setError(e.response.data)
+            }
+        })
     }
 
     return (
@@ -66,6 +71,11 @@ function Signup() {
                             onChange={handleInput}
                             sx={{mb:2}}
                         />
+                        {
+                           error.length > 0 && (
+                            <Typography component="h5" color="error">{error}</Typography>
+                           )
+                        }
                         <TextField
                             placeholder="Enter Email"
                             id="emailField"
@@ -74,6 +84,7 @@ function Signup() {
                             fullWidth
                             required
                             onChange={handleInput}
+                            type="email"
                             sx={{mb:2}}
                         />
                          <TextField

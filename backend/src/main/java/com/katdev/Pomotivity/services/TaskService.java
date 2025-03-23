@@ -1,5 +1,6 @@
 package com.katdev.Pomotivity.services;
 
+import com.katdev.Pomotivity.domain.entities.PriorityTask;
 import com.katdev.Pomotivity.domain.entities.Task;
 import com.katdev.Pomotivity.domain.entities.User;
 import com.katdev.Pomotivity.dtos.TaskDto;
@@ -27,32 +28,6 @@ public class TaskService {
         this.userRepository = userRepository;
     }
 
-//    public List<TaskDto> getAllTasks() {
-//        List<Task> listOfTasks = taskRepository.findAll();
-//
-//        List<TaskDto> taskDtos = listOfTasks.stream()
-//                .map(task -> {
-//                    TaskDto taskDto = new TaskDto();
-//                    taskDto.setId(task.getId());
-//                    taskDto.setTitle(task.getTitle());
-//                    taskDto.setUserId(task.getUser().getId());
-//                    return taskDto;
-//                })
-//                .toList();
-//
-//        return taskDtos;
-//    }
-
-//    public TaskDto getTaskById(long id) {
-//        Task task = taskRepository.findById(id).orElse(null);
-//        TaskDto taskDto = new TaskDto();
-//        taskDto.setId(task.getId());
-//        taskDto.setTitle(task.getTitle());
-//        taskDto.setUserId(task.getUser().getId());
-//        return taskDto;
-//    }
-
-
     public List<TaskDto> filterTasks(Integer userId, Integer taskId, String title, Boolean completed, LocalDate dueDate) {
         List <Task> filteredTasks = taskRepository.findByUserId(userId);
 
@@ -75,12 +50,23 @@ public class TaskService {
     }
 
     public TaskDto addTask(TaskDto taskDto) {
-        Task createdTask = new Task();
+        Task createdTask;
+        System.out.println("Received Task" + taskDto.toString());
+        if(taskDto.getTaskType().equals("Priority Task")){
+            createdTask = new PriorityTask();
+            ((PriorityTask) createdTask).setPriority(taskDto.getPriorityLevel());
+        } else {
+            createdTask = new Task();
+        }
+
         User user = userRepository.findById(taskDto.getUserId()).orElse(null);
         createdTask.setTitle(taskDto.getTitle());
         createdTask.setUser(user);
         createdTask.setDueDate(taskDto.getDueDate());
         createdTask.setEstimatedPomodoros(taskDto.getEstimatedPomodoros());
+
+        System.out.println("createdTask" + taskDto.toString());
+
         taskRepository.save(createdTask);
 
         return convertTaskToDto(createdTask);
@@ -97,6 +83,13 @@ public class TaskService {
             updatedTask.setCompleted(taskDto.getCompleted());
             updatedTask.setEstimatedPomodoros(taskDto.getEstimatedPomodoros());
             updatedTask.setActualPomodoros(taskDto.getActualPomodoros());
+
+            if(taskDto.getTaskType().equals("Priority Task")){
+                if(updatedTask instanceof PriorityTask){
+                    ((PriorityTask) updatedTask).setPriority(taskDto.getPriorityLevel());
+                }
+            }
+
             taskRepository.save(updatedTask);
 
             return convertTaskToDto(updatedTask);
@@ -118,6 +111,14 @@ public class TaskService {
         taskDto.setEstimatedPomodoros(task.getEstimatedPomodoros());
         taskDto.setActualPomodoros(task.getActualPomodoros());
         taskDto.setCompleted(task.getCompleted());
+        taskDto.setTaskType(task.getTaskType());
+
+        if(task instanceof PriorityTask priorityTask) {
+            taskDto.setPriorityLevel(priorityTask.getPriority());
+        } else {
+            taskDto.setPriorityLevel(null);
+        }
+
         return taskDto;
     }
 }

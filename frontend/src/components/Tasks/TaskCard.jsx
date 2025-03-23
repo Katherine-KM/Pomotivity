@@ -22,10 +22,6 @@ export const TaskCard = ({today, setSelectedTaskId, selectedTaskId, pomoComplete
         fetchTasks()
     }, [])
 
-    useEffect(() => {
-        console.log(tasks);
-    }, [tasks]);
-
     return (
         <Card sx={{ padding: 2 }}>
             <AddTask today = {today} fetchTasks = {fetchTasks} setTasks = {setTasks} tasks = {tasks} /> 

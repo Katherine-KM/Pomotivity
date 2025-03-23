@@ -18,7 +18,7 @@ const ReportsTable = () => {
         setTasks(formattedTasks);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error)
       })
   }
 
@@ -26,16 +26,23 @@ const ReportsTable = () => {
     fetchTasks()
   }, [])
 
-  useEffect(() => {
-    console.log(tasks);
-  }, [tasks]);
-
   const columns = [
-    { field: 'id', headerName: 'ID', width: 50, type: 'number', },
+    { field: 'id', headerName: 'ID', width: 30, type: 'number', },
     {
       field: 'title',
       headerName: 'Task Title',
-      width: 140,
+      width: 120,
+    },
+    {
+      field: 'taskType',
+      headerName: 'Task Type',
+      width: 100,
+    },
+    {
+      field: 'priorityLevel',
+      headerName: 'Priority Level',
+      width: 110,
+      type: 'number',
     },
     {
       field: 'actualPomodoros',
@@ -71,7 +78,7 @@ const ReportsTable = () => {
   ];
 
   return (
-    <Box sx={{ height: 400, width: '100%', marginTop: 6 }}>
+    <Box sx={{ height: 525, width: '100%', marginTop: 6 }}>
       <DataGrid
         slots={{ toolbar: GridToolbar }}
         slotProps={{ toolbar: { showQuickFilter: true, } }}

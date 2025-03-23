@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { Box, Typography, TextField, Button } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { DatePicker } from "@mui/x-date-pickers"
 import dayjs from "dayjs";
 import axios from "axios";
@@ -10,19 +12,30 @@ export const AddTask = ({today, fetchTasks}) => {
     const [newTask, setNewTask] = useState({
         title: "",
         estimatedPomodoros: 0,
-        dueDate: today
+        dueDate: today,
+        taskType: "Task",
+        priorityLevel: null
     })
+    const [isPriorityTask, setIsPriorityTask] = useState(false)
 
     const handleInput = (e) => {
         setNewTask({...newTask, [e.target.name]: e.target.value})
     }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:8080/api/v1/tasks", newTask, { withCredentials: true })
+        const addedTask = !isPriorityTask ? {...newTask, tasktype: "Task"} : {...newTask, taskType:"Priority Task"}
+        addTask(addedTask)
+        setIsAddingTask(false);
+        setIsPriorityTask(false);
+    }
+
+    const addTask = (addedTask) => {
+        axios.post("http://localhost:8080/api/v1/tasks", addedTask, { withCredentials: true })
             .then(res => fetchTasks())
             .catch(err => console.log(err))
-        setIsAddingTask(false);
     }
+
     return (
         <>
             {isAddingTask ? (
@@ -50,6 +63,9 @@ export const AddTask = ({today, fetchTasks}) => {
                             onChange={handleInput}
                             required
                             sx={{flexBasis:"48%"}}
+                            slotProps={{
+                                htmlInput: {maxLength: 12}
+                            }}
                         />
                         <TextField
                             id="estimatedPomodoros"
@@ -69,6 +85,29 @@ export const AddTask = ({today, fetchTasks}) => {
                             isRequired
                             sx={{flexBasis:"50%"}}
                         /> 
+                        <span>
+                            <Typography display="inline"> Is this Task a Priority? </Typography>
+                            <Button onClick={() => {
+                                setIsPriorityTask(prev => !prev);
+                            }}> 
+                                {isPriorityTask ? <CheckBoxIcon />  : <CheckBoxOutlineBlankIcon/>} 
+                            </Button>
+                        </span>
+
+                        {isPriorityTask && 
+                            <TextField 
+                                name="priorityLevel"
+                                variant="filled"
+                                type="number" 
+                                label="Priority Level" 
+                                sx={{flexBasis:"50%"}} 
+                                required
+                                onChange={(e) => setNewTask({
+                                    ...newTask, 
+                                    priorityLevel: Number(e.target.value)
+                                })}
+                            />
+                        }
 
                         <Button
                             type="Submit"

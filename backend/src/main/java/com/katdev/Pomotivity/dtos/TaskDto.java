@@ -1,10 +1,8 @@
 package com.katdev.Pomotivity.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Column;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class TaskDto {
     private long id;
@@ -22,10 +20,15 @@ public class TaskDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yy")
     private LocalDate dueDate;
 
+    private String taskType;
+
+    private Integer priorityLevel;
+
     public TaskDto() {
     }
 
-    public TaskDto(long id, String title, Integer userId, Boolean completed, Integer estimatedPomodoros, Integer actualPomodoros, LocalDate dueDate) {
+    public TaskDto(long id, String title, Integer userId, Boolean completed, Integer estimatedPomodoros,
+                   Integer actualPomodoros, LocalDate dueDate, String taskType, Integer priorityLevel) {
         this.id = id;
         this.title = title;
         this.userId = userId;
@@ -33,6 +36,8 @@ public class TaskDto {
         this.estimatedPomodoros = estimatedPomodoros;
         this.actualPomodoros = actualPomodoros;
         this.dueDate = dueDate;
+        this.taskType = taskType;
+        this.priorityLevel = priorityLevel;
     }
 
     public LocalDate getDueDate() {
@@ -89,5 +94,36 @@ public class TaskDto {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getTaskType() {
+        return this.taskType;
+    }
+
+    public void setTaskType(String taskType) {
+        this.taskType = taskType;
+    }
+
+    public Integer getPriorityLevel() {
+        return priorityLevel;
+    }
+
+    public void setPriorityLevel(Integer priorityLevel) {
+        this.priorityLevel = priorityLevel;
+    }
+
+    @Override
+    public String toString() {
+        return "TaskDto{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", userId=" + userId +
+                ", completed=" + completed +
+                ", estimatedPomodoros=" + estimatedPomodoros +
+                ", actualPomodoros=" + actualPomodoros +
+                ", dueDate=" + dueDate +
+                ", taskType='" + taskType + '\'' +
+                ", priorityLevel=" + priorityLevel +
+                '}';
     }
 }

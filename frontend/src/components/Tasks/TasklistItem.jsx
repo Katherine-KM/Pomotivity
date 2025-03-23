@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { UpdateTask } from "./UpdateTask";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import axios from "axios";
+import Checkbox from '@mui/material/Checkbox';
 
 export const TaskListItem = ({task, fetchTasks, setSelectedTaskId, selectedTaskId, pomoCompleted, setPomoCompleted}) => {
     const [isUpdatingTask, setIsUpdatingTask] = useState(false);
@@ -15,7 +16,9 @@ export const TaskListItem = ({task, fetchTasks, setSelectedTaskId, selectedTaskI
         estimatedPomodoros: task.estimatedPomodoros,
         dueDate: task.dueDate,
         completed: task.completed,
-        actualPomodoros: task.actualPomodoros
+        actualPomodoros: task.actualPomodoros,
+        taskType: task.taskType,
+        priorityLevel: task
     })
 
     const handleDelete = () => {
@@ -24,9 +27,10 @@ export const TaskListItem = ({task, fetchTasks, setSelectedTaskId, selectedTaskI
         .catch(err => console.log(err))
     }
     
-    const handleUpdate = () => {
+    const handleUpdate = (task) => {
+        const updateTask = {...task, completed: !task.completed}
         setUpdatedTask({...updatedTask, completed: !updatedTask.completed})
-        axios.put("http://localhost:8080/api/v1/tasks", updatedTask, { withCredentials: true })
+        axios.put("http://localhost:8080/api/v1/tasks", updateTask, { withCredentials: true })
             .then(res => fetchTasks())
             .catch(err => console.log(err))
     }
@@ -54,11 +58,12 @@ export const TaskListItem = ({task, fetchTasks, setSelectedTaskId, selectedTaskI
             borderRadius:2, 
             "&:hover": {backgroundColor: "#2D2D2D", cursor: "pointer"}
             }}>
-            <ListItem onClick={() => handleSelection(task.id)}>
-                <ListItemIcon>
-                    <IconButton onClick={() => handleUpdate()}> {task.completed ? <CheckBoxIcon />  : <CheckBoxOutlineBlankIcon/>} </IconButton>
-                </ListItemIcon>
+                <ListItem onClick={() => handleSelection(task.id)}>
+                <Checkbox checked={task.completed} onChange={() => handleUpdate(task)} />
                 <ListItemText>{task.title}</ListItemText>
+                {task.taskType === "PriorityTask" &&
+                    <ListItemText>Priority Level: {task.priorityLevel}</ListItemText>
+                }
                 <ListItemText sx={{maxWidth: 70}}> {`${task.actualPomodoros}/${task.estimatedPomodoros}`}</ListItemText>
                 <ListItemIcon>
                     <IconButton onClick={() => setIsUpdatingTask(true)}>

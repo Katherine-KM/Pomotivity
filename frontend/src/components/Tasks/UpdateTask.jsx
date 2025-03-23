@@ -12,7 +12,9 @@ export const UpdateTask = ({ task, isUpdatingTask, setIsUpdatingTask, fetchTasks
         estimatedPomodoros: task.estimatedPomodoros,
         dueDate: task.dueDate,
         completed: task.completed,
-        actualPomodoros: task.actualPomodoros
+        actualPomodoros: task.actualPomodoros,
+        taskType: task.taskType,
+        priorityLevel: task.TaskType
     })
 
     const handleInput = (e) => {

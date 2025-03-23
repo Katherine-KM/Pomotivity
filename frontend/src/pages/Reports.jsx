@@ -6,7 +6,7 @@ function Reports() {
     return (<>
         <Header/>
         <Container maxWidth="lg">
-            <ReportsTable />
+            <ReportsTable/>
         </Container>
     </>)
 }

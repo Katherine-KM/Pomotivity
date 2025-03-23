@@ -28,7 +28,6 @@ export const PomodoroTimer = ({
             return () => clearInterval(interval);
         } else if (!paused && timeRemaining == 0){
             setPaused(true)
-            console.log(breakCounter)
             if(pomoSessionType == "Focus Time" && ((breakCounter / 4) != 1) ){
                 setPomoSessionType("Short Break")
                 setBreakCounter(breakCounter + 1)

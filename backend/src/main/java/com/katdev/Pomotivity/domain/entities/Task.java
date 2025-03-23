@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "task_type", discriminatorType = DiscriminatorType.STRING)
 public class Task {
 
     @Id
@@ -53,7 +55,9 @@ public class Task {
     public Task() {
     }
 
-    public Task(long id, String title, User user, Boolean completed, Integer estimatedPomodoros, Integer actualPomodoros, LocalDate dueDate, LocalDateTime createdDate, LocalDateTime updatedDate) {
+    public Task(long id, String title, User user, Boolean completed, Integer estimatedPomodoros,
+                Integer actualPomodoros, LocalDate dueDate, LocalDateTime createdDate, LocalDateTime updatedDate,
+                String taskType) {
         this.id = id;
         this.title = title;
         this.user = user;
@@ -136,4 +140,9 @@ public class Task {
     public void setUpdatedDate(LocalDateTime updatedDate) {
         this.updatedDate = updatedDate;
     }
+
+    public String getTaskType() {
+        return this.getClass().getSimpleName();
+    }
+
 }

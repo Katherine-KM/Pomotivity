@@ -97,6 +97,9 @@ function Signup() {
                             required
                             onChange={handleInput}
                             sx={{mb:2}}
+                            slotProps={{
+                                htmlInput: {minLength: 12}
+                            }}
                         />
                         <Button
                             type="submit"

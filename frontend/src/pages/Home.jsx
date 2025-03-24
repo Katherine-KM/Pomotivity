@@ -15,7 +15,7 @@ function Home({today}) {
                 minHeight="100vh"
                 maxWidth="sm"
                 marginX="auto"
-                sx={{ padding: 5 }}
+                sx={{"@media (max-width: 500px)": {width: "99%"}}}
             >
                 <PomodoroCard setPomoCompleted={setPomoCompleted} />
                 <TaskCard today = {today} setSelectedTaskId={setSelectedTaskId} pomoCompleted={pomoCompleted} setPomoCompleted={setPomoCompleted} selectedTaskId={selectedTaskId}/>

@@ -2,10 +2,11 @@ import { useState } from "react"
 import { Box, Typography, TextField, Button } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
 import { DatePicker } from "@mui/x-date-pickers"
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import dayjs from "dayjs";
 import axios from "axios";
 
-export const UpdateTask = ({ task, isUpdatingTask, setIsUpdatingTask, fetchTasks }) => {
+export const UpdateTask = ({ task, isUpdatingTask, setIsUpdatingTask, fetchTasks, handleDelete }) => {
      const [updatedTask, setUpdatedTask] = useState({
         id: task.id,
         title: task.title,
@@ -53,7 +54,7 @@ export const UpdateTask = ({ task, isUpdatingTask, setIsUpdatingTask, fetchTasks
                             name="title"
                             variant="filled"
                             label="Task Title"
-                            sx={{ flexBasis: "48%" }}
+                            sx={{ flexBasis: {xs: "100%", sm:"48%"} }}
                             onChange={handleInput}
                             required
                             defaultValue={task.title}
@@ -64,7 +65,7 @@ export const UpdateTask = ({ task, isUpdatingTask, setIsUpdatingTask, fetchTasks
                             label="Est. Pomodoros"
                             variant="filled"
                             type="number"
-                            sx={{ flexBasis: "48%" }}
+                            sx={{ flexBasis: {xs: "100%", sm:"48%"} }}
                             onChange={handleInput}
                             required
                             defaultValue={task.estimatedPomodoros}
@@ -73,7 +74,7 @@ export const UpdateTask = ({ task, isUpdatingTask, setIsUpdatingTask, fetchTasks
                         <DatePicker
                             label="Due Date"
                             name="dueDate"
-                            sx={{ flexBasis: "50%" }}
+                            sx={{ flexBasis: {xs: "100%", sm:"50%"} }}
                             onChange={(updatedValue) => setUpdatedTask({ ...updatedTask, dueDate: dayjs(updatedValue).format("MM/DD/YY") })}
                             isRequired
                             defaultValue={task.dueDate ? dayjs(task.dueDate, "MM/DD/YY") : null}
@@ -83,7 +84,7 @@ export const UpdateTask = ({ task, isUpdatingTask, setIsUpdatingTask, fetchTasks
                             type="Submit"
                             variant="contained"
                             size="large"
-                            sx={{ color: "white", flexBasis: "48%" }}
+                            sx={{ color: "white", flexBasis: {xs: "100%", sm:"48%"} }}
                         >
                             Update Task
                         </Button>
@@ -91,12 +92,24 @@ export const UpdateTask = ({ task, isUpdatingTask, setIsUpdatingTask, fetchTasks
                         <Button
                             variant="contained"
                             size="large"
-                            sx={{ color: "white", flexBasis: "48%" }}
+                            sx={{ color: "white", flexBasis: {xs: "100%", sm:"48%"} }}
 
                             onClick={() => setIsUpdatingTask(false)}
                         >
                             Cancel
                         </Button>
+
+                        
+                        <Button
+                            variant="contained"
+                            size="large"
+                            sx={{ color: "white", flexBasis: {xs: "100%"}, display: {xs: "block", sm: "none"}}}
+
+                            onClick={() => handleDelete()}
+                        >
+                            Delete Task
+                        </Button>
+
                     </Box>
                 </Box>
 

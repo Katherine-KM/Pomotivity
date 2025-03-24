@@ -62,10 +62,7 @@ export const AddTask = ({today, fetchTasks}) => {
                             label="Task Title"
                             onChange={handleInput}
                             required
-                            sx={{flexBasis:"48%"}}
-                            slotProps={{
-                                htmlInput: {maxLength: 12}
-                            }}
+                            sx={{flexBasis: {xs: "100%", sm:"48%"}}}
                         />
                         <TextField
                             id="estimatedPomodoros"
@@ -74,7 +71,7 @@ export const AddTask = ({today, fetchTasks}) => {
                             variant="filled"
                             type="number"
                             onChange={handleInput}
-                            sx={{flexBasis:"48%"}}
+                            sx={{flexBasis: {xs: "100%", sm:"48%"}}}
                             required
                         />
 
@@ -83,7 +80,7 @@ export const AddTask = ({today, fetchTasks}) => {
                             name="dueDate"
                             onChange={(newValue) => setNewTask({...newTask, dueDate: dayjs(newValue).format("MM/DD/YY")})}
                             isRequired
-                            sx={{flexBasis:"50%"}}
+                            sx={{flexBasis: {xs: "100%", sm:"48%"}}}
                         /> 
                         <span>
                             <Typography display="inline"> Is this Task a Priority? </Typography>
@@ -100,7 +97,7 @@ export const AddTask = ({today, fetchTasks}) => {
                                 variant="filled"
                                 type="number" 
                                 label="Priority Level" 
-                                sx={{flexBasis:"50%"}} 
+                                sx={{flexBasis: {xs: "100%", sm:"50%"}}} 
                                 required
                                 onChange={(e) => setNewTask({
                                     ...newTask, 
@@ -113,7 +110,7 @@ export const AddTask = ({today, fetchTasks}) => {
                             type="Submit"
                             variant="contained"
                             size="large"
-                            sx={{ color: "white", flexBasis:"48%"  }}
+                            sx={{ color: "white", flexBasis: {xs: "100%", sm:"48%"} }}
                             onSubmit={handleSubmit}
                         >
                             Create Task
@@ -122,7 +119,7 @@ export const AddTask = ({today, fetchTasks}) => {
                         <Button
                             variant="contained"
                             size="large"
-                            sx={{ color: "white", flexBasis:"48%" }}
+                            sx={{ color: "white", flexBasis: {xs: "100%", sm:"48%"} }}
 
                             onClick={() => setIsAddingTask(false)}
                         >

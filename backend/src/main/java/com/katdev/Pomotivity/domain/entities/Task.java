@@ -145,4 +145,18 @@ public class Task {
         return this.getClass().getSimpleName();
     }
 
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", user=" + user +
+                ", completed=" + completed +
+                ", estimatedPomodoros=" + estimatedPomodoros +
+                ", actualPomodoros=" + actualPomodoros +
+                ", dueDate=" + dueDate +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
+                '}';
+    }
 }

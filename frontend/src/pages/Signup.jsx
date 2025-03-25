@@ -22,7 +22,7 @@ function Signup() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.post("http://localhost:8080/signup", user)
+        axios.post("https://pomotivity-latest.onrender.com/signup", user)
         .then(res => navigate("/login"))
         .catch(e => {
             if (e.response) {

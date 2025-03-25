@@ -31,7 +31,7 @@ export const AddTask = ({today, fetchTasks}) => {
     }
 
     const addTask = (addedTask) => {
-        axios.post("http://localhost:8080/api/v1/tasks", addedTask, { withCredentials: true })
+        axios.post("https://pomotivity-latest.onrender.com/api/v1/tasks", addedTask, { withCredentials: true })
             .then(res => fetchTasks())
             .catch(err => console.log(err))
     }

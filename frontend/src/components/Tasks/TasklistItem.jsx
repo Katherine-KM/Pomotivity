@@ -22,7 +22,7 @@ export const TaskListItem = ({ task, fetchTasks, setSelectedTaskId, selectedTask
     })
 
     const handleDelete = () => {
-        axios.delete(`http://localhost:8080/api/v1/tasks/${task.id}`, { withCredentials: true })
+        axios.delete(`https://pomotivity-latest.onrender.com/api/v1/tasks/${task.id}`, { withCredentials: true })
             .then(res => fetchTasks())
             .catch(err => console.log(err))
     }
@@ -30,7 +30,7 @@ export const TaskListItem = ({ task, fetchTasks, setSelectedTaskId, selectedTask
     const handleUpdate = (task) => {
         const updateTask = { ...task, completed: !task.completed }
         setUpdatedTask({ ...updatedTask, completed: !updatedTask.completed })
-        axios.put("http://localhost:8080/api/v1/tasks", updateTask, { withCredentials: true })
+        axios.put("https://pomotivity-latest.onrender.com/api/v1/tasks", updateTask, { withCredentials: true })
             .then(res => fetchTasks())
             .catch(err => console.log(err))
     }
@@ -42,7 +42,7 @@ export const TaskListItem = ({ task, fetchTasks, setSelectedTaskId, selectedTask
     useEffect(() => {
         if (pomoCompleted == true && task.id == selectedTaskId) {
             const updated = { ...task, actualPomodoros: task.actualPomodoros + 1 };
-            axios.put("http://localhost:8080/api/v1/tasks", updated, { withCredentials: true })
+            axios.put("https://pomotivity-latest.onrender.com/api/v1/tasks", updated, { withCredentials: true })
                 .then(res => fetchTasks())
                 .catch(err => console.log(err))
                 .finally(() => setPomoCompleted(false));

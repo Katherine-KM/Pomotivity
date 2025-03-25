@@ -23,7 +23,7 @@ export const UpdateTask = ({ task, isUpdatingTask, setIsUpdatingTask, fetchTasks
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.put("http://localhost:8080/api/v1/tasks", updatedTask, { withCredentials: true })
+        axios.put("https://pomotivity-latest.onrender.com/api/v1/tasks", updatedTask, { withCredentials: true })
             .then(res => fetchTasks())
             .catch(err => console.log(err))
         setIsUpdatingTask(false);

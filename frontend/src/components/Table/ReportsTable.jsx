@@ -9,7 +9,7 @@ const ReportsTable = () => {
   const [tasks, setTasks] = useState([]);
 
   const fetchTasks = () => {
-    axios.get("http://localhost:8080/api/v1/tasks", { withCredentials: true })
+    axios.get("https://pomotivity-latest.onrender.com/api/v1/tasks", { withCredentials: true })
       .then((res) => {
         const sortedTasks = [...res.data].sort((a, b) => a.id - b.id);
         const formattedTasks = sortedTasks.map((task) => ({

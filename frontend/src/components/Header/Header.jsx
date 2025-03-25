@@ -13,7 +13,7 @@ function Header() {
     const [page, setPage] = useState(0);
 
     const handleSignOut = () => {
-        axios.post("http://localhost:8080/logout", {}, { withCredentials: true })
+        axios.post("https://pomotivity-latest.onrender.com/logout", {}, { withCredentials: true })
             .then(res => console.log("Logout Successful"))
             .catch(err => console.log("Logout Not Successful"))
     }

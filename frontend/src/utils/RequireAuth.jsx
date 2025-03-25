@@ -6,7 +6,7 @@ function RequireAuth () {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/auth/user", {
+        axios.get("https://pomotivity-latest.onrender.com/api/v1/auth/user", {
             withCredentials: true
         })
         .then(res => {
